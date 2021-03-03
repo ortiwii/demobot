@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# This program is dedicated to the public domain under the CC0 license.
-#
-# THIS EXAMPLE HAS BEEN UPDATED TO WORK WITH THE BETA VERSION 12 OF PYTHON-TELEGRAM-BOT.
-# If you're still using version 11.1.0, please see the examples at
-# https://github.com/python-telegram-bot/python-telegram-bot/tree/v11.1.0/examples
-
 """
 Simple Bot to reply to Telegram messages.
 First, a few handler functions are defined. Then, those functions are passed to
@@ -51,7 +43,33 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-def pizza(update, context):
+def respuesta(update, context):
+    uri = "https://api.kraken.com/0/public/Ticker?pair=ADAEUR,%20XDGEUR,%20BTCEUR,%20XETHZEUR"
+    metodoa = 'GET'
+    goiburuak = {'Host': 'api.kraken.com'}
+    edukia = ''
+
+    erantzuna = requests.request(metodoa, uri, headers=goiburuak, data=edukia)
+    edukia = json.loads(erantzuna.content)
+
+    # DOGE PRICE
+    dogePrice = float(edukia["result"]["XDGEUR"]["c"][0])
+
+    # ADA PRICE
+    adaPrice = float(edukia["result"]["ADAEUR"]["c"][0])
+
+    # BTC PRICE
+    btcPrice = float(edukia["result"]["XXBTZEUR"]["c"][0])
+
+    # ETH PRICE
+    ethPrice = float(edukia["result"]["XETHZEUR"]["c"][0])
+
+    update.message.reply_text("ETHEREUM PRICE (eur) = " + str(ethPrice))
+    update.message.reply_text("BITCOIN PRICE (eur) = " + str(btcPrice))
+    update.message.reply_text("DOGECOIN PRICE (eur) = " + str(dogePrice))
+    update.message.reply_text("CARDANO PRICE (eur) = " + str(adaPrice))
+
+def minero(update, context):
     uri = "https://eth.2miners.com/api/accounts/0x3C99c18A9DB8063F2edB586AE24E9d05DD045b2e"
     metodoa = 'GET'
     goiburuak = {'Host': 'eth.2miners.com'}
@@ -104,7 +122,7 @@ def main():
     dp.add_handler(CommandHandler("sumar", sumar))
 
     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, pizza))
+    dp.add_handler(MessageHandler(Filters.text, respuesta))
 
     # log all errors
     dp.add_error_handler(error)
