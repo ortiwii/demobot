@@ -60,13 +60,13 @@ def dinero(update, context):
 
     # ADA PRICE
     adaPrice = float(edukia["result"]["ADAEUR"]["c"][0])
-    adaEur = 20
+    adaEur = 15
     adaCoins = 16.50
     adaTotal = adaPrice*adaCoins
 
     # BTC PRICE
     btcPrice = float(edukia["result"]["XXBTZEUR"]["c"][0])
-    btcEur = 75
+    btcEur = 70
     btcCoins = 0.001575
     btcTotal = btcPrice*btcCoins
 
@@ -76,11 +76,10 @@ def dinero(update, context):
     ethEur = 50
     ethTotal = ethPrice*ethCoins
 
-    update.message.reply_text("ETHEREUM PRICE (eur) = " + str(ethPrice)+"\n"+"  - Teniamos "+str(ethEur)+" -> "+str(ethTotal))
-    update.message.reply_text("BITCOIN PRICE (eur) = " + str(btcPrice)+"\n"+"  - Teniamos "+str(btcEur)+" -> "+str(btcTotal))
-    update.message.reply_text("DOGECOIN PRICE (eur) = " + str(dogePrice)+"\n"+"  - Teniamos "+str(dogeEur)+" -> "+str(dogeTotal))
-    update.message.reply_text("CARDANO PRICE (eur) = " + str(adaPrice)+"\n"+"  - Teniamos "+str(adaEur)+" -> "+str(adaTotal))
-
+    update.message.reply_text("ETHEREUM PRICE (eur) = " + str(ethPrice)+"\n"+"  - Teniamos "+str(ethEur)+" -> "+str(ethTotal)+"\nBITCOIN PRICE (eur) = " + str(btcPrice)+"\n"+"  - Teniamos "+str(btcEur)+" -> "+str(btcTotal)+"\nDOGECOIN PRICE (eur) = " + str(dogePrice)+"\n"+"  - Teniamos "+str(dogeEur)+" -> "+str(dogeTotal)+"\nCARDANO PRICE (eur) = " + str(adaPrice)+"\n"+"  - Teniamos "+str(adaEur)+" -> "+str(adaTotal))
+    sumaAntes = btcEur + ethEur + adaEur + dogeEur
+    sumaAhora = btcTotal + ethPrice + adaPrice + dogePrice
+    update.message.reply_text("TOTAL = "+str(sumaAntes)+" -> "+str(sumaAhora))
 
 def dibujo(update, context):
     update.message.reply_text("┼┼┼┼┼┼┼▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄┼┼┼┼┼┼\n┼┼┼┼┼┼┼█▒▒░░░░░░░░░▒▒█┼┼┼┼┼┼\n┼┼┼┼┼┼┼┼█░░█░░░░░█░░█┼┼┼┼┼┼┼\n┼┼┼┼─▄▄──█░░░▀█▀░░░█──▄▄─┼┼┼\n┼┼┼┼█░░█─▀▄░░░░░░░▄▀─█░░█┼┼┼\n┼██░██░████░██░░░██░░░█████┼\n┼██▄██░██▄▄░██░░░██░░░██░██┼\n┼██▀██░██▀▀░██░░░██░░░██░██┼\n┼██░██░████░████░████░█████┼")
@@ -153,3 +152,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
