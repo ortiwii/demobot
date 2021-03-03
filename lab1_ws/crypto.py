@@ -35,15 +35,15 @@ def help(update, context):
 
 
 def echo(update, context):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
 
+    update.message.reply_text("TIENES LOS SIGUIENTES COMANDOS:")
+    update.message.reply_text("/START = Inicializar el bot con un saludo\n/DINERO = Consultar cuanto dinero tenemos actualmente\n/MINAR = Ver cuanto dinero tengo minado actualmente\n/DIBUJO = Te devuelve un dibujo hecho con amor")
 
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-def respuesta(update, context):
+def dinero(update, context):
     uri = "https://api.kraken.com/0/public/Ticker?pair=ADAEUR,%20XDGEUR,%20BTCEUR,%20XETHZEUR"
     metodoa = 'GET'
     goiburuak = {'Host': 'api.kraken.com'}
@@ -54,20 +54,36 @@ def respuesta(update, context):
 
     # DOGE PRICE
     dogePrice = float(edukia["result"]["XDGEUR"]["c"][0])
+    dogeEur = 15
+    dogeCoins = 312.50
+    dogeTotal = dogePrice*dogeCoins
 
     # ADA PRICE
     adaPrice = float(edukia["result"]["ADAEUR"]["c"][0])
+    adaEur = 20
+    adaCoins = 16.50
+    adaTotal = adaPrice*adaCoins
 
     # BTC PRICE
     btcPrice = float(edukia["result"]["XXBTZEUR"]["c"][0])
+    btcEur = 75
+    btcCoins = 0.001575
+    btcTotal = btcPrice*btcCoins
 
     # ETH PRICE
     ethPrice = float(edukia["result"]["XETHZEUR"]["c"][0])
+    ethCoins = 0.03756
+    ethEur = 50
+    ethTotal = ethPrice*ethCoins
 
-    update.message.reply_text("ETHEREUM PRICE (eur) = " + str(ethPrice))
-    update.message.reply_text("BITCOIN PRICE (eur) = " + str(btcPrice))
-    update.message.reply_text("DOGECOIN PRICE (eur) = " + str(dogePrice))
-    update.message.reply_text("CARDANO PRICE (eur) = " + str(adaPrice))
+    update.message.reply_text("ETHEREUM PRICE (eur) = " + str(ethPrice)+"\n"+"  - Teniamos "+str(ethEur)+" -> "+str(ethTotal))
+    update.message.reply_text("BITCOIN PRICE (eur) = " + str(btcPrice)+"\n"+"  - Teniamos "+str(btcEur)+" -> "+str(btcTotal))
+    update.message.reply_text("DOGECOIN PRICE (eur) = " + str(dogePrice)+"\n"+"  - Teniamos "+str(dogeEur)+" -> "+str(dogeTotal))
+    update.message.reply_text("CARDANO PRICE (eur) = " + str(adaPrice)+"\n"+"  - Teniamos "+str(adaEur)+" -> "+str(adaTotal))
+
+
+def dibujo(update, context):
+    update.message.reply_text("┼┼┼┼┼┼┼▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄┼┼┼┼┼┼\n┼┼┼┼┼┼┼█▒▒░░░░░░░░░▒▒█┼┼┼┼┼┼\n┼┼┼┼┼┼┼┼█░░█░░░░░█░░█┼┼┼┼┼┼┼\n┼┼┼┼─▄▄──█░░░▀█▀░░░█──▄▄─┼┼┼\n┼┼┼┼█░░█─▀▄░░░░░░░▄▀─█░░█┼┼┼\n┼██░██░████░██░░░██░░░█████┼\n┼██▄██░██▄▄░██░░░██░░░██░██┼\n┼██▀██░██▀▀░██░░░██░░░██░██┼\n┼██░██░████░████░████░█████┼")
 
 def minero(update, context):
     uri = "https://eth.2miners.com/api/accounts/0x3C99c18A9DB8063F2edB586AE24E9d05DD045b2e"
@@ -87,9 +103,7 @@ def minero(update, context):
     edukia = json.loads(erantzuna.content)
     price = float(edukia["price"])
     act = money * price
-    #print("ETHEREUM PRICE (eur) = " + str(price))
-    #print("MONEY (eth) = " + str(money))
-    #print("\nMONEY (eur) = " + str(act) + " €")
+
     update.message.reply_text("ETHEREUM PRICE (eur) = " + str(price))
     update.message.reply_text("MONEY (eth) = " + str(money))
     update.message.reply_text("MONEY (eur) = " + str(act) + " €")
@@ -117,12 +131,13 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("sumar", sumar))
+    dp.add_handler(CommandHandler("START", start))
+    dp.add_handler(CommandHandler("DINERO", dinero))
+    dp.add_handler(CommandHandler("MINAR", minero))
+    dp.add_handler(CommandHandler("DIBUJO", dibujo))
 
     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, respuesta))
+    dp.add_handler(MessageHandler(Filters.text, echo))
 
     # log all errors
     dp.add_error_handler(error)
