@@ -78,7 +78,7 @@ def dinero(update, context):
 
     update.message.reply_text("ETHEREUM PRICE (eur) = " + str(ethPrice)+"\n"+"  - Teniamos "+str(ethEur)+" -> "+str(ethTotal)+"\nBITCOIN PRICE (eur) = " + str(btcPrice)+"\n"+"  - Teniamos "+str(btcEur)+" -> "+str(btcTotal)+"\nDOGECOIN PRICE (eur) = " + str(dogePrice)+"\n"+"  - Teniamos "+str(dogeEur)+" -> "+str(dogeTotal)+"\nCARDANO PRICE (eur) = " + str(adaPrice)+"\n"+"  - Teniamos "+str(adaEur)+" -> "+str(adaTotal))
     sumaAntes = btcEur + ethEur + adaEur + dogeEur
-    sumaAhora = btcTotal + ethPrice + adaPrice + dogePrice
+    sumaAhora = btcPrice + ethPrice + adaPrice + dogePrice
     update.message.reply_text("TOTAL = "+str(sumaAntes)+" -> "+str(sumaAhora))
 
 def dibujo(update, context):
